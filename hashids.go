@@ -141,11 +141,14 @@ func NewWithData(data *HashIDData) (*HashID, error) {
 	// Calculate the maximum possible string length by hashing the maximum possible id
 	if data.Uint64Mode {
 		encoded, err = hid.EncodeUint64([]uint64{math.MaxUint64})
+		if err != nil {
+			return nil, fmt.Errorf("Unable to encode maximum uint64 to find max encoded value length: %s", err)
+		}
 	} else {
 		encoded, err = hid.EncodeInt64([]int64{math.MaxInt64})
-	}
-	if err != nil {
-		return nil, fmt.Errorf("Unable to encode maximum int64 to find max encoded value length: %s", err)
+		if err != nil {
+			return nil, fmt.Errorf("Unable to encode maximum int64 to find max encoded value length: %s", err)
+		}
 	}
 	hid.maxLengthPerNumber = len(encoded)
 
