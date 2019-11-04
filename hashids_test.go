@@ -49,6 +49,27 @@ func TestEncodeDecodeInt64(t *testing.T) {
 	}
 }
 
+func TestEncodeDecodeUint64(t *testing.T) {
+	hdata := NewData()
+	hdata.MinLength = 30
+	hdata.Salt = "this is my salt"
+
+	hid, _ := NewWithData(hdata)
+
+	numbers := []uint64{45, 434, 1313, 99, math.MaxUint64}
+	hash, err := hid.EncodeUint64(numbers)
+	if err != nil {
+		t.Fatal(err)
+	}
+	dec := hid.DecodeUint64(hash)
+
+	t.Logf("%v -> %v -> %v", numbers, hash, dec)
+
+	if !reflect.DeepEqual(dec, numbers) {
+		t.Errorf("Decoded numbers `%v` did not match with original `%v`", dec, numbers)
+	}
+}
+
 func TestEncodeDecodeEpoch(t *testing.T) {
 	hdata := NewData()
 	hdata.MinLength = 30

@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/speps/go-hashids"
+	"github.com/admpub/go-hashids"
 )
 
 func main() {
@@ -29,6 +29,7 @@ func main() {
 	flag.StringVar(&separator, `sep`, ",", `separator for integers`)
 	flag.Parse()
 
+	params.Uint64Mode = true
 	codec, err := hashids.NewWithData(&params)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
@@ -38,7 +39,7 @@ func main() {
 	args := os.Args[len(os.Args)-flag.NArg():]
 	if decode {
 		for _, arg := range args {
-			result, err := codec.DecodeInt64WithError(arg)
+			result, err := codec.DecodeUint64WithError(arg)
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "%s: %s\n", arg, err)
 			} else {
@@ -47,7 +48,7 @@ func main() {
 					if len(str) != 0 {
 						str = append(str, separator...)
 					}
-					str = strconv.AppendInt(str, x, 10)
+					str = strconv.AppendUint(str, x, 10)
 				}
 				fmt.Printf("%s: %s\n", arg, str)
 			}
@@ -56,16 +57,16 @@ func main() {
 	ARGS:
 		for _, arg := range args {
 			spl := strings.Split(arg, separator)
-			ints := make([]int64, len(spl))
+			ints := make([]uint64, len(spl))
 			var err error
 			for i, s := range spl {
-				ints[i], err = strconv.ParseInt(s, 0, 64)
+				ints[i], err = strconv.ParseUint(s, 10, 64)
 				if err != nil {
 					fmt.Fprintf(os.Stderr, "%s: %s\n", arg, err)
 					continue ARGS
 				}
 			}
-			result, err := codec.EncodeInt64(ints)
+			result, err := codec.EncodeUint64(ints)
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "%s: %s\n", arg, err)
 			} else {
