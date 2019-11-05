@@ -60,6 +60,14 @@ func NewData() *HashIDData {
 	return &HashIDData{Alphabet: DefaultAlphabet}
 }
 
+func NewLowerCaseData() *HashIDData {
+	return &HashIDData{Alphabet: LowerCaseAlphabet}
+}
+
+func NewUpperCaseData() *HashIDData {
+	return &HashIDData{Alphabet: UpperCaseAlphabet}
+}
+
 // New creates a new HashID
 func New() (*HashID, error) {
 	return NewWithData(NewData())
