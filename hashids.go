@@ -19,6 +19,10 @@ const (
 
 	// DefaultAlphabet is the default alphabet used by go-hashids
 	DefaultAlphabet string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+	// LowerCaseAlphabet .
+	LowerCaseAlphabet string = "abcdefghijklmnopqrstuvwxyz1234567890"
+	// UpperCaseAlphabet .
+	UpperCaseAlphabet string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
 
 	minAlphabetLength int     = 8
 	sepDiv            float64 = 3.5
